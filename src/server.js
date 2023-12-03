@@ -1,3 +1,5 @@
+process.env.NODE_OPTIONS = '--openssl-legacy-provider';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
