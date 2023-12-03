@@ -66,6 +66,19 @@ app.get('/dashboard', authenticate, (req, res) => {
     res.sendFile(__dirname + '/public/dashboard.html');
 });
 
+app.get('/cadastro', (req, res) => {
+    res.sendFile(__dirname + '/public/cadastro.html');
+});
+
+app.post('/cadastrar', validateForm, (req, res) => {
+    const { username, password } = req.body;
+
+    // Simulação de cadastro (adicione à sua lógica real)
+    users.push({ username, password });
+
+    res.send(`Cadastro realizado com sucesso. <a href="/">Faça login</a>`);
+});
+
 // Iniciar servidor
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
