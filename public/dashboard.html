@@ -8,8 +8,23 @@
 </head>
 <body>
     <div class="container">
-        <h1>Bem-vindo, <%= user %>!</h1>
-        <p>Último Login: <%= lastLogin %></p>
+        <h1 id="welcome-message"></h1>
+        <p id="last-login"></p>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/dashboard/data')
+                .then(response => response.json())
+                .then(data => {
+                    const { user, lastLogin } = data;
+                    const welcomeMessage = document.getElementById('welcome-message');
+                    const lastLoginElement = document.getElementById('last-login');
+                    welcomeMessage.textContent = 'Bem-vindo, ' + user + '!';
+                    lastLoginElement.textContent = 'Último Login: ' + lastLogin;
+                });
+        });
+    </script>
+    
 </body>
 </html>

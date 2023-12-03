@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const path = require('path');  
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -44,7 +45,7 @@ const validateForm = (req, res, next) => {
 
 // Rotas
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    res.sendFile('index.html', { root: 'public' });
 });
 
 app.post('/login', validateForm, (req, res) => {
@@ -63,11 +64,18 @@ app.post('/login', validateForm, (req, res) => {
 });
 
 app.get('/dashboard', authenticate, (req, res) => {
-    res.sendFile(__dirname + '/public/dashboard.html');
+    res.sendFile('dashboard.html', { root: 'public' });
+});
+
+// Adicione o seguinte trecho após a rota '/dashboard'
+app.get('/dashboard/data', authenticate, (req, res) => {
+    const user = req.session.user;
+    const lastLogin = req.cookies.lastLogin;
+    res.json({ user, lastLogin });
 });
 
 app.get('/cadastro', (req, res) => {
-    res.sendFile(__dirname + '/public/cadastro.html');
+    res.sendFile('cadastro.html', { root: 'public' });
 });
 
 app.post('/cadastrar', validateForm, (req, res) => {
